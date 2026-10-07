@@ -1,0 +1,38 @@
+name: CodeQL fork early-skip smoke
+
+on:
+  push:
+    branches:
+      - codex/early-skip-smoke
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
+jobs:
+  draft-skip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize the forked action
+        id: init
+        uses: asdf8675309/codeql-action/init@affb5f379
+        with:
+          languages: javascript
+          skip-if-draft: true
+        env:
+          CODE_SCANNING_IS_DRAFT: "true"
+
+      - name: Verify init skipped before analysis setup
+        env:
+          ANALYSIS_SKIPPED: ${{ steps.init.outputs.analysis-skipped }}
+          SKIP_REASON: ${{ steps.init.outputs.analysis-skip-reason }}
+        run: |
+          test "$ANALYSIS_SKIPPED" = "true"
+          test "$SKIP_REASON" = "the pull request is a draft"
+
+      - name: Verify autobuild is a successful no-op
+        uses: asdf8675309/codeql-action/autobuild@affb5f379
+
+      - name: Verify analyze is a successful no-op
+        uses: asdf8675309/codeql-action/analyze@affb5f379
