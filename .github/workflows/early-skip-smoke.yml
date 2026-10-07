@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Initialize the forked action
         id: init
-        uses: asdf8675309/codeql-action/init@affb5f379
+        uses: asdf8675309/codeql-action/init@affb5f3799bee8ec1798850dcacb92fe9a0ee110
         with:
           languages: javascript
           skip-if-draft: true
@@ -32,7 +32,7 @@ jobs:
           test "$SKIP_REASON" = "the pull request is a draft"
 
       - name: Verify autobuild is a successful no-op
-        uses: asdf8675309/codeql-action/autobuild@affb5f379
+        uses: asdf8675309/codeql-action/autobuild@affb5f3799bee8ec1798850dcacb92fe9a0ee110
 
       - name: Verify analyze is a successful no-op
-        uses: asdf8675309/codeql-action/analyze@affb5f379
+        uses: asdf8675309/codeql-action/analyze@affb5f3799bee8ec1798850dcacb92fe9a0ee110
